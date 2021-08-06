@@ -1,20 +1,24 @@
+import React from 'react';
 import './Home.css';
+import {Link} from 'react-router-dom';
+import AddTask from './AddTask.js';
 
 function Home() {
     return (
       <div>
-        <header>
-        <h1>프로파일+member's name</h1>
-				<nav>
-					<ul>
-						<li><a href="#signIn">sign in</a></li>
-						<li><a href="#signUp">sign up</a></li>
-						<li><a href="#community">community</a></li>
-            {/* 노티스, 컨택트, 방명록은 커뮤니티 드롭다운으로 */}
-						<li><a href="#chat">chat</a></li>
-					</ul>
-				</nav>
-        </header>
+          <h1>프로파일+member's name</h1>
+				  <nav>
+					  <ul>
+              <li><Link to="/">home</Link></li>
+						  <li><Link to="/signIn">sign in</Link></li>
+						  <li><Link to="/signUp">sign up</Link></li>
+						  <li><Link to="/community">community</Link></li>
+              {/* 노티스, 컨택트, 방명록은 커뮤니티 드롭다운으로 */}
+						  <li><Link to="/chat">chat</Link></li>
+              {/* 서치하는것도 추가 */}
+					  </ul>
+				  </nav>
+          <AddTask />
       </div>
     );
   }
