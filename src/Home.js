@@ -1,9 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Home.css';
 import {Link} from 'react-router-dom';
-import AddTask from './AddTask.js';
+import Modal from 'react-modal';
+import AddBoardModal from './AddBoardModal.js';
+
 
 function Home() {
+
+  //보드추가 모달
+  const [modalState, setModalState] = useState(false);
+
+  function addBoardModalOpen(){
+      setModalState(true);
+      // setModalOpen(true);
+  }
+
+  function addBoardModalClose(){
+    setModalState(false);
+    // setModalOpen(true);
+}
     return (
       <div>
           <h1>프로파일+member's name</h1>
@@ -18,7 +33,28 @@ function Home() {
               {/* 서치하는것도 추가 */}
 					  </ul>
 				  </nav>
-          <AddTask />
+          {/* 보드 추가 모달창 */}
+          <button onClick={addBoardModalOpen}>AddBoard</button>  
+          <Modal isOpen ={modalState}>
+            <AddBoardModal />
+            <button onClick={addBoardModalClose}>create</button>
+            <button onClick={addBoardModalClose}>close</button>
+          </Modal>
+          <hr></hr>
+          <div className="container">
+            <div className="item">a</div>
+            <div className="item">b</div>
+            <div className="item">c</div>
+            <div className="item">d</div>
+            <div className="item">e</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+            <div className="item">f</div>
+          </div>
       </div>
     );
   }

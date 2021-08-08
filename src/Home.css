@@ -17,3 +17,15 @@ li a {
     padding: 10px 12px;
     text-decoration: none;
 }
+
+.container{
+    display: grid;
+    /*grid-template-columns: repeat(auto-fill, minmax(100px, auto)); */
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows:  repeat(3, minmax(100px, auto));;  
+    gap: 20px 20px;
+}
+
+.item{
+    background-color: blue;   
+}
