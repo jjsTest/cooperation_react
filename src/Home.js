@@ -18,7 +18,12 @@ function Home() {
   function addBoardModalClose(){
     setModalState(false);
     // setModalOpen(true);
-}
+  }
+
+  function addBoard(){
+    AddBoardModal.board_name
+  }
+
     return (
       <div>
           <h1>프로파일+member's name</h1>
@@ -34,10 +39,11 @@ function Home() {
 					  </ul>
 				  </nav>
           {/* 보드 추가 모달창 */}
+          <button onClick={}>AddBoard</button>  
           <button onClick={addBoardModalOpen}>AddBoard</button>  
           <Modal isOpen ={modalState}>
             <AddBoardModal />
-            <button onClick={addBoardModalClose}>create</button>
+            <button onClick={addBoardModalClose}>add</button>
             <button onClick={addBoardModalClose}>close</button>
           </Modal>
           <hr></hr>
@@ -58,5 +64,5 @@ function Home() {
       </div>
     );
   }
-  
+
   export default Home;
