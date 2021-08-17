@@ -1,19 +1,37 @@
-import React from 'react';
+import React,{useState} from 'react';
+import axios from 'axios';
 
-function AddBoardModal(){
+function AddBoardModal(props){
     const [values, setValues] = useState({
         name : '',
-        number : ''
+        count : 0
     });
-    const {name, number} = values
+    const {name, count} = values
 
     const handleChange = e =>{
-        const {value, name } = e.target;
+        const {value, count } = e.target;
         setValues({
             ...values,
-            [name]: value
+            [count]: value
         });
     };
+
+    function AddBoard(){
+        axios(
+            {
+                url: '/board/add',
+                method:'post',
+                data:{
+                    name:{name},
+                    count: {count}
+                },
+                baseURL:'http://localhost:8080',
+                withCredentials:true,
+            }
+        ).then(function (response){
+            //모달끄고 재조회
+        })
+    }
 
     return (
         <>
@@ -21,6 +39,8 @@ function AddBoardModal(){
                 제목: <input type="text" name="name" onChange={handleChange} value={name}></input>
                 최대인원수: <input type="text" name="number" onChange={handleChange} value={number}></input>
             </ul>
+            <button onClick={AddBoard}>add</button>
+            <button onClick={props.addBoardModalClose}>close</button>
         </>
     )
 }

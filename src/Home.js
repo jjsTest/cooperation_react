@@ -7,8 +7,10 @@ import AddBoardModal from './AddBoardModal.js';
 
 function Home() {
 
-  //보드추가 모달
-  const [modalState, setModalState] = useState(false);
+
+  const [modalState, setModalState] = useState(false); // 모달 open 여부
+  //const [nameValue, setNameValue] = useState(''); // 이름
+  //const [countValue, setCountValue] = useState(0); // 사람 수 
 
   function addBoardModalOpen(){
       setModalState(true);
@@ -18,10 +20,6 @@ function Home() {
   function addBoardModalClose(){
     setModalState(false);
     // setModalOpen(true);
-  }
-
-  function addBoard(){
-    AddBoardModal.board_name
   }
 
     return (
@@ -39,12 +37,10 @@ function Home() {
 					  </ul>
 				  </nav>
           {/* 보드 추가 모달창 */}
-          <button onClick={}>AddBoard</button>  
+          
           <button onClick={addBoardModalOpen}>AddBoard</button>  
           <Modal isOpen ={modalState}>
-            <AddBoardModal />
-            <button onClick={addBoardModalClose}>add</button>
-            <button onClick={addBoardModalClose}>close</button>
+            <AddBoardModal addBoardModalClose={addBoardModalClose} />
           </Modal>
           <hr></hr>
           <div className="container">
