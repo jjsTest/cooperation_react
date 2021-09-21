@@ -1,16 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Home.css';
-import {Link} from 'react-router-dom';
+import {Link,Route} from 'react-router-dom';
 import Modal from 'react-modal';
 import AddBoardModal from './AddBoardModal.js';
+import axios from 'axios';
+import BoardRoom from './BoardRoom.js';
 
 
 function Home() {
 
 
   const [modalState, setModalState] = useState(false); // 모달 open 여부
+  const [boardList, setBoardList] = useState([]);
   //const [nameValue, setNameValue] = useState(''); // 이름
   //const [countValue, setCountValue] = useState(0); // 사람 수 
+
+  useEffect(() => {
+    axios(
+      {
+          //baseURL:'http://localhost:8080',
+          url: '/board/select',
+          method:'post',
+          baseURL:'http://localhost:8080',
+          withCredentials:true,
+      })
+      .then(function (response){
+      console.log("성공");
+      console.log(response);
+      setBoardList(response.data);
+    })
+    .catch(function(error){
+      console.log("실패");
+      console.log(error);
+    });
+  },[]);
 
   function addBoardModalOpen(){
       setModalState(true);
@@ -44,19 +67,21 @@ function Home() {
           </Modal>
           <hr></hr>
           <div className="container">
-            <div className="item">a</div>
-            <div className="item">b</div>
-            <div className="item">c</div>
-            <div className="item">d</div>
-            <div className="item">e</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
-            <div className="item">f</div>
+            {boardList.map((board) => (
+              <div key={boardList.id} className="item">
+                <p>name: {board.name}</p>
+                <p>{board.num} / {board.total_num}</p>
+                {/* <link to= {`/BoardRoom/${board.id}`}>enter</link> */}
+                <Link to ={{
+                  pathname:"/boardRoom",
+                  search:`?board_id=${board.id}`  
+                }}> <button>enter</button> </Link>
+              </div>
+            ))}
           </div>
+          
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/boardRoom" component={BoardRoom} />
       </div>
     );
   }

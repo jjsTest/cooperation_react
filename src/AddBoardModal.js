@@ -2,17 +2,20 @@ import React,{useState} from 'react';
 import axios from 'axios';
 
 function AddBoardModal(props){
+
     const [values, setValues] = useState({
         name : '',
-        count : 0
+        total_num : 0
     });
-    const {name, count} = values
+
+    //비구조화 할당
+    const {name, total_num} = values
 
     const handleChange = e =>{
-        const {value, count } = e.target;
+        const {name, value} = e.target;
         setValues({
             ...values,
-            [count]: value
+            [name]: value
         });
     };
 
@@ -22,22 +25,30 @@ function AddBoardModal(props){
                 url: '/board/add',
                 method:'post',
                 data:{
-                    name:{name},
-                    count: {count}
+                   name:name,
+                   total_num:total_num
+                    //name: 'hong',
+                    //count: 1
                 },
                 baseURL:'http://localhost:8080',
                 withCredentials:true,
             }
         ).then(function (response){
-            //모달끄고 재조회
-        })
+            console.log(response)
+            if(response.data === 0){
+                alert("Sorry, There was an error. Please try again");
+            }else{
+                alert("you have successfully created new board");
+            }
+            props.addBoardModalClose();
+        });
     }
 
     return (
         <>
             <ul>
                 제목: <input type="text" name="name" onChange={handleChange} value={name}></input>
-                최대인원수: <input type="text" name="number" onChange={handleChange} value={number}></input>
+                최대인원수: <input type="text" name="total_num" onChange={handleChange} value={total_num}></input>
             </ul>
             <button onClick={AddBoard}>add</button>
             <button onClick={props.addBoardModalClose}>close</button>
