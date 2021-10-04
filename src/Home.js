@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './Home.css';
-import {Link,Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
 import AddBoardModal from './AddBoardModal.js';
 import axios from 'axios';
-import BoardRoom from './BoardRoom.js';
-
+//import BoardRoom from './BoardRoom.js';
+import Header from './Header.js';
 
 function Home() {
 
@@ -15,7 +15,7 @@ function Home() {
   //const [nameValue, setNameValue] = useState(''); // 이름
   //const [countValue, setCountValue] = useState(0); // 사람 수 
 
-  useEffect(() => {
+  function getBoard(){
     axios(
       {
           //baseURL:'http://localhost:8080',
@@ -33,11 +33,11 @@ function Home() {
       console.log("실패");
       console.log(error);
     });
-  },[]);
+  }
 
   function addBoardModalOpen(){
-      setModalState(true);
-      // setModalOpen(true);
+    setModalState(true);
+    // setModalOpen(true);
   }
 
   function addBoardModalClose(){
@@ -45,22 +45,15 @@ function Home() {
     // setModalOpen(true);
   }
 
+  useEffect(() => {
+    getBoard();
+  },[]);
+
     return (
       <div>
-          <h1>프로파일+member's name</h1>
-				  <nav>
-					  <ul>
-              <li><Link to="/">home</Link></li>
-						  <li><Link to="/signIn">sign in</Link></li>
-						  <li><Link to="/signUp">sign up</Link></li>
-						  <li><Link to="/community">community</Link></li>
-              {/* 노티스, 컨택트, 방명록은 커뮤니티 드롭다운으로 */}
-						  <li><Link to="/chat">chat</Link></li>
-              {/* 서치하는것도 추가 */}
-					  </ul>
-				  </nav>
+        <Header />
+        
           {/* 보드 추가 모달창 */}
-          
           <button onClick={addBoardModalOpen}>AddBoard</button>  
           <Modal isOpen ={modalState}>
             <AddBoardModal addBoardModalClose={addBoardModalClose} />
@@ -71,17 +64,16 @@ function Home() {
               <div key={boardList.id} className="item">
                 <p>name: {board.name}</p>
                 <p>{board.num} / {board.total_num}</p>
-                {/* <link to= {`/BoardRoom/${board.id}`}>enter</link> */}
-                <Link to ={{
+                <Link to={`/BoardRoom/${board.id}`}><button>enter</button></Link>
+                {/* ` : 템플릿 문자열 이때 변수는 ${}안에 넣어서 보내줘야해서 위처럼 사용함. */}
+                {/* <Link to ={{
                   pathname:"/boardRoom",
-                  search:`?board_id=${board.id}`  
-                }}> <button>enter</button> </Link>
+                  search:`?board_id=${board.id}`
+                }}> <button>enter</button> </Link> */}
+
               </div>
             ))}
           </div>
-          
-          <Route path="/" exact={true} component={Home} />
-          <Route path="/boardRoom" component={BoardRoom} />
       </div>
     );
   }

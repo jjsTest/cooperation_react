@@ -1,23 +1,18 @@
-import './App.css';
-import {Route,Switch, Router} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import BoardRoom from './BoardRoom';
 import Home from './Home';
 
-function App() {
+function Routes() {
   return (
-    <Router>
       <div>
-        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/boardRoom/:boardId" component={BoardRoom} />
           {/* <Route path="/signIn" component={SignIn} />
           <Route path="/signUp" component={SignUp} />
           <Route path="/community" component={Community} />
           <Route path="/chat" component={Chat} /> */}
-          <Route path="/boardRoom" component={BoardRoom} />
-          <Route path="/" component={Home} />
-        </Switch>
       </div>
-    </Router>
   );
 }
 
-export default App;
+export default Routes;
