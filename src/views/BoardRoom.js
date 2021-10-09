@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Header from './Header';
-import AddTaskModal from './AddTaskModal';
+import AddTaskModal from '../modals/AddTaskModal';
 import Modal from 'react-modal';
 import axios from 'axios';
-import TaskDetailModal from './TaskDetailModal';
+import TaskDetailModal from '../modals/TaskDetailModal';
 
 function BoardRoom(props) {
   const [addModalState, setAddModalState] = useState(false); // 모달 open 여부

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import './Home.css';
+import '../Home.css';
 import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
-import AddBoardModal from './AddBoardModal.js';
+import AddBoardModal from '../modals/AddBoardModal.js';
 import axios from 'axios';
 //import BoardRoom from './BoardRoom.js';
-import Header from './Header.js';
+import Header from './Header';
 
 function Home() {
 

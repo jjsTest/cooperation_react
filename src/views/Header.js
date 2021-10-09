@@ -4,6 +4,10 @@ import {Link} from 'react-router-dom';
 function Header() {
   return (
     <div>
+      
+
+
+
         <h1>프로파일+member's name</h1>
 		<nav>
 			<ul>
