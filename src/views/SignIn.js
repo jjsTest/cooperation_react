@@ -36,10 +36,10 @@ function SignIn() {
         });
     };
 
-    function GetSignIn(){
+    function Login(){
         axios(
             {
-                url: '/member/GetSignIn',
+                url: '/member/login',
                 method:'post',
                 data:{
                     id:id,
@@ -157,7 +157,7 @@ function SignIn() {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button" onClick={GetSignIn}>
+                <Button className="my-4" color="primary" type="button" onClick={Login}>
                   Sign in
                 </Button>
               </div>

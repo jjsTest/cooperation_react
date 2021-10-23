@@ -44,6 +44,32 @@ function AddBoardModal(props){
         });
     }
 
+    useEffect(() => {
+        if(props.boardId !== "init"){
+            axios(
+                {
+                    //baseURL:'http://localhost:8080',
+                    url: '/board/selectId',
+                    method:'post',
+                    data:{
+                        board_id: boardId,
+                     },
+                    baseURL:'http://localhost:8080',
+                    withCredentials:true,
+                })
+                .then(function (response){
+                console.log("성공");
+                console.log(response);
+                setBoardList(response.data);
+              })
+              .catch(function(error){
+                console.log("실패");
+                console.log(error);
+              });
+
+        }
+      },[]);
+
     return (
         <>
             <ul>

@@ -12,6 +12,7 @@ function Home() {
 
   const [modalState, setModalState] = useState(false); // 모달 open 여부
   const [boardList, setBoardList] = useState([]);
+  const [boardId, setBoardId] = useState("init");
   //const [nameValue, setNameValue] = useState(''); // 이름
   //const [countValue, setCountValue] = useState(0); // 사람 수 
 
@@ -45,6 +46,12 @@ function Home() {
     // setModalOpen(true);
   }
 
+  function editBoard(id){
+    addBoardModalOpen();
+    setBoardId(id);
+  }
+
+
   useEffect(() => {
     getBoard();
   },[]);
@@ -56,12 +63,15 @@ function Home() {
           {/* 보드 추가 모달창 */}
           <button onClick={addBoardModalOpen}>AddBoard</button>  
           <Modal isOpen ={modalState}>
-            <AddBoardModal addBoardModalClose={addBoardModalClose} />
+            <AddBoardModal addBoardModalClose={addBoardModalClose} boardId={boardId}/>
           </Modal>
           <hr></hr>
           <div className="container">
             {boardList.map((board) => (
               <div key={boardList.id} className="item">
+                {board.create_id=="j" ? <button onClick={() => editBoard(board.id)}>edit</button>: null}
+                {board.create_id=="j" ? <button onClick={deleteBoard}>delete</button>: null}
+                {/* if({board.create_id} === "j"){ <button>edit</button>} */}
                 <p>name: {board.name}</p>
                 <p>{board.num} / {board.total_num}</p>
                 <Link to={`/BoardRoom/${board.id}`}><button>enter</button></Link>

@@ -38,47 +38,47 @@ function SignUp() {
         });
     };
 
-    let history = useHistory();
+    //let history = useHistory();
 
     function SaveSignUp(){
-        history.push("/home");
-        // //아디 영문자만받을건가욥?
-        // if(id === "" || id.length>20){
-        //     alert("아이디sms 20이하의 길이로 해주세욥");
-        //     //id edit에 포커스 가게 하면 완벽
-        //     return false;
-        // }else if(pw === "" || pw.length>12){
-        //     alert("비번은 12이하의 길이로 해주세욥");
-        //     return false;
-        // }else if(pwChk !== pw){
-        //     alert("비밀번호가 일치하지 않습니다.");
-        //     return false;
-        // }else if(email===""){
-        //     alert("이메일을 입력해주세요.");
-        //     //이메일 @등 형식체크필요
-        //     return false;
-        // }
-        // axios(
-        //     {
-        //         url: '/member/saveSignUp',
-        //         method:'post',
-        //         data:{
-        //             id:id,
-        //             pw:pw,
-        //             email: email
-        //         },
-        //         baseURL:'http://localhost:8080',
-        //         withCredentials:true,
-        //     }
-        // ).then(function (response){
-        //     console.log(response)
-        //     if(response.data === 0){
-        //         alert("Sorry, There was an error. Please try again");
-        //     }else{
-        //         alert("you have successfully created new board");
-        //         PageToHome();
-        //     }
-        // });
+        //history.push("/home");
+        //아디 영문자만받을건가욥?
+        if(id === "" || id.length>20){
+            alert("아이디sms 20이하의 길이로 해주세욥");
+            //id edit에 포커스 가게 하면 완벽
+            return false;
+        }else if(pw === "" || pw.length>12){
+            alert("비번은 12이하의 길이로 해주세욥");
+            return false;
+        }else if(pwChk !== pw){
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }else if(email===""){
+            alert("이메일을 입력해주세요.");
+            //이메일 @등 형식체크필요
+            return false;
+        }
+        axios(
+            {
+                url: '/member/saveSignUp',
+                method:'post',
+                data:{
+                    id:id,
+                    pw:pw,
+                    email: email
+                },
+                baseURL:'http://localhost:8080',
+                withCredentials:true,
+            }
+        ).then(function (response){
+            console.log(response)
+            if(response.data === 0){
+                alert("Sorry, There was an error. Please try again");
+            }else{
+                alert("you have successfully created new board");
+                //PageToHome();
+            }
+        });
     }
 
     function IdChk(){
