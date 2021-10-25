@@ -1,15 +1,16 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 
 function AddBoardModal(props){
 
     const [values, setValues] = useState({
         name : '',
+        num : 0,
         total_num : 0
     });
 
     //비구조화 할당
-    const {name, total_num} = values
+    const {name, num, total_num} = values
 
     const handleChange = e =>{
         const {name, value} = e.target;
@@ -44,6 +45,36 @@ function AddBoardModal(props){
         });
     }
 
+    function EditBoard(){
+        if(total_num < num){
+            alert("참여인원보다 많은 인원 수를 입력하세요.");
+        }else{
+            axios(
+                {
+                    url: '/board/edit',
+                    method:'post',
+                    data:{
+                       name:name,
+                       total_num:total_num,
+                       board_id: props.boardId
+                        //name: 'hong',
+                        //count: 1
+                    },
+                    baseURL:'http://localhost:8080',
+                    withCredentials:true,
+                }
+            ).then(function (response){
+                console.log(response)
+                if(response.data === 0){
+                    alert("Sorry, There was an error. Please try again");
+                }else{
+                    alert("you have successfully created new board");
+                }
+                props.addBoardModalClose();
+            });
+        }
+    }
+
     useEffect(() => {
         if(props.boardId !== "init"){
             axios(
@@ -52,7 +83,7 @@ function AddBoardModal(props){
                     url: '/board/selectId',
                     method:'post',
                     data:{
-                        board_id: boardId,
+                        board_id: props.boardId,
                      },
                     baseURL:'http://localhost:8080',
                     withCredentials:true,
@@ -60,7 +91,7 @@ function AddBoardModal(props){
                 .then(function (response){
                 console.log("성공");
                 console.log(response);
-                setBoardList(response.data);
+                setValues(response.data);
               })
               .catch(function(error){
                 console.log("실패");
@@ -76,7 +107,7 @@ function AddBoardModal(props){
                 제목: <input type="text" name="name" onChange={handleChange} value={name}></input>
                 최대인원수: <input type="text" name="total_num" onChange={handleChange} value={total_num}></input>
             </ul>
-            <button onClick={AddBoard}>add</button>
+            {props.boardId === "init" ? <button onClick={AddBoard}>add</button> : <button onClick={EditBoard}>edit</button>}
             <button onClick={props.addBoardModalClose}>close</button>
         </>
     )

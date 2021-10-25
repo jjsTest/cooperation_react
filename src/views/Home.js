@@ -47,10 +47,37 @@ function Home() {
   }
 
   function editBoard(id){
-    addBoardModalOpen();
+    //boardId.current = id;
     setBoardId(id);
+    addBoardModalOpen();
   }
 
+  function deleteBoard(id){
+    alert("id:"+id);
+    if(window.confirm('삭제하시겠습니까')){
+      axios(
+        {
+            url: '/board/delete',
+            method:'post',
+            data:{
+               id: id
+                //name: 'hong',
+                //count: 1
+            },
+            baseURL:'http://localhost:8080',
+            withCredentials:true,
+        }
+    ).then(function (response){
+        console.log(response)
+        if(response.data === 0){
+            alert("Sorry, There was an error. Please try again");
+        }else{
+            alert("you have successfully created new board");
+        }
+    });
+      getBoard();
+    }
+  }
 
   useEffect(() => {
     getBoard();
@@ -70,7 +97,7 @@ function Home() {
             {boardList.map((board) => (
               <div key={boardList.id} className="item">
                 {board.create_id=="j" ? <button onClick={() => editBoard(board.id)}>edit</button>: null}
-                {board.create_id=="j" ? <button onClick={deleteBoard}>delete</button>: null}
+                {board.create_id=="j" ? <button onClick={() => deleteBoard(board.id)}>delete</button>: null}
                 {/* if({board.create_id} === "j"){ <button>edit</button>} */}
                 <p>name: {board.name}</p>
                 <p>{board.num} / {board.total_num}</p>
