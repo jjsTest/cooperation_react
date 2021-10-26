@@ -1,8 +1,10 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 
 function AddBoardModal(props){
 
+    const nameRef = useRef(null);
+    const totalNumRef = useRef(null);
     const [values, setValues] = useState({
         name : '',
         num : 0,
@@ -76,6 +78,7 @@ function AddBoardModal(props){
     }
 
     useEffect(() => {
+        //alert("props.boardID:"+props.boardId);
         if(props.boardId !== "init"){
             axios(
                 {
@@ -83,7 +86,7 @@ function AddBoardModal(props){
                     url: '/board/selectId',
                     method:'post',
                     data:{
-                        board_id: props.boardId,
+                        id: props.boardId,
                      },
                     baseURL:'http://localhost:8080',
                     withCredentials:true,
@@ -91,7 +94,10 @@ function AddBoardModal(props){
                 .then(function (response){
                 console.log("성공");
                 console.log(response);
+                //alert("response.data:"+response.data);
                 setValues(response.data);
+                nameRef.current.value={name};
+                totalNumRef.current.value={total_num};
               })
               .catch(function(error){
                 console.log("실패");
@@ -104,8 +110,8 @@ function AddBoardModal(props){
     return (
         <>
             <ul>
-                제목: <input type="text" name="name" onChange={handleChange} value={name}></input>
-                최대인원수: <input type="text" name="total_num" onChange={handleChange} value={total_num}></input>
+                제목: <input type="text" name="name" onChange={handleChange} value={name} ref={nameRef}></input>
+                최대인원수: <input type="text" name="total_num" onChange={handleChange} value={total_num} ref={totalNumRef}></input>
             </ul>
             {props.boardId === "init" ? <button onClick={AddBoard}>add</button> : <button onClick={EditBoard}>edit</button>}
             <button onClick={props.addBoardModalClose}>close</button>
