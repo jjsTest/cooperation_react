@@ -3,7 +3,6 @@ import axios from 'axios';
 
 function AddBoardModal(props){
 
-
     const [values, setValues] = useState({
         name : '',
         num : 0,

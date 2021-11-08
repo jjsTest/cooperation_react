@@ -1,5 +1,12 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCardText
+  } from '@coreui/react';
 
 function TaskDetailModal(props){
 
@@ -58,12 +65,22 @@ function TaskDetailModal(props){
     }
 
     useEffect(() => {
+        alert("gggggg");
         GetTaskDetail();
       },[]);
     
 
     return (
         <>
+            {/* <CCard borderColor="primary" className="text-center" style={{ width: '18rem' }}>
+                <CCardHeader>{detailList[0].task_subject}</CCardHeader>
+                <CCardBody>
+                    <CCardTitle>{task.subject}</CCardTitle>
+                    <CCardText>{detailList[0].task_contents}</CCardText>
+                </CCardBody>
+                </CCard> 
+             */}
+{/* 
             <div className="container">
                 {detailList.map((detail) => (
                 <div key={detailList.task_id} className="item">
@@ -81,7 +98,7 @@ function TaskDetailModal(props){
                 <p><input type="text" name="inComment" onChange={handleChange} value={inComment}></input><button onClick={AddComment}>Comment</button></p>
                 <br/>
                 <button onClick={props.detailModalClose}>close</button>
-            </div>
+            </div> */}
 
         </>
     )

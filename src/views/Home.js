@@ -18,6 +18,7 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
+  CButton,
   CDataTable,
   CRow
 } from '@coreui/react';
@@ -104,13 +105,14 @@ function Home() {
 
     return (
       <div>
-        <Header />   
+        <Header />  
+        <br/>
         {/* 보드 추가 모달창 */}
-        <button onClick={addBoardModalOpen}>AddBoard</button>  
+        <CButton color="success" shape="rounded-pill" onClick={addBoardModalOpen}>AddBoard</CButton>  
         <Modal isOpen ={modalState}>
           <AddBoardModal addBoardModalClose={addBoardModalClose} boardId={boardId}/>
         </Modal>
-        <hr></hr>
+        <br/><br/>
         {/* <CRow>*/}
           {/* <CCol xs="12" lg="6"> */}
          {/* <CCol xs="12" lg="20">
@@ -122,7 +124,7 @@ function Home() {
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">board</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">project</CTableHeaderCell>
                     <CTableHeaderCell scope="col">create_id</CTableHeaderCell>
                     <CTableHeaderCell scope="col">현인원/최대인원</CTableHeaderCell>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
@@ -139,7 +141,7 @@ function Home() {
                         <CTableDataCell scope="row">{board.create_id=="j" ? <button onClick={() => editBoard(board.id)}>edit</button>: null}
                         {board.create_id=="j" ? <button onClick={() => deleteBoard(board.id)}>delete</button>: null}
                         {/* if({board.create_id} === "j"){ <button>edit</button>} */}
-                        <Link to={`/BoardRoom/${board.id}`}><button>enter</button></Link></CTableDataCell>
+                        <Link to={`/BoardRoom/${board.id}/${board.name}`}><button>enter</button></Link></CTableDataCell>
                         {/* ` : 템플릿 문자열 이때 변수는 ${}안에 넣어서 보내줘야해서 위처럼 사용함. */}
                         {/* <Link to ={{
                           pathname:"/boardRoom",
