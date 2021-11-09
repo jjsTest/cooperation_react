@@ -17,6 +17,7 @@ function BoardRoom(props) {
   const [taskList, setTaskList] = useState([]);
   const boardId = props.match.params.boardId;
   const boardName = props.match.params.boardName;
+  const [taskId, setTaskId] = useState("");
 
   function getTask(){
     axios(
@@ -52,8 +53,8 @@ function BoardRoom(props) {
     // setModalOpen(true);
   }
 
-  function detailModalOpen(){
-    alert("시작쓰");
+  function detailModalOpen(taskId){
+    setTaskId(taskId);
     setDetailModalState(true);
     // setModalOpen(true);
   }
@@ -84,15 +85,14 @@ function BoardRoom(props) {
               <CCard borderColor="primary" className="text-center" style={{ width: '18rem' }}>
               <CCardBody>
                 <CCardTitle>{task.subject}</CCardTitle>
-                <CButton onClick={detailModalOpen}>Go TaskDetail</CButton>
-                <Modal isOpen ={detailModalState}>
-                  <TaskDetailModal detailModalClose={detailModalClose} boardId={boardId} taskId={task.id} />
-                </Modal>
+                <CButton onClick={() => detailModalOpen(task.id)}>Go TaskDetail</CButton>
               </CCardBody>
               </CCard>
             </div>
           ))}
-
+          <Modal isOpen ={detailModalState}>
+            <TaskDetailModal detailModalClose={detailModalClose} boardId={boardId} taskId={taskId}/>
+          </Modal>
 
 
           <CCard className="text-center" style={{ width: '18rem' }}>
@@ -104,18 +104,18 @@ function BoardRoom(props) {
             </CCardBody>
           </CCard>
 
-          <div className="container">
+          {/* <div className="container">
             {taskList.map((task) => (
               <div key={taskList.id} className="item">
                 <p>subject: {task.subject}</p>
-                <p>contents: {task.contents} </p>  {/* 길이제한 후 '...'으로 보여주기 */}
+                <p>contents: {task.contents} </p>  길이제한 후 '...'으로 보여주기 
                 <button onClick={detailModalOpen}>TaskDetail</button>
                 <Modal isOpen ={detailModalState}>
-                  <TaskDetailModal detailModalClose={detailModalClose} boardId={boardId} taskId={task.id} />
+                  <TaskDetailModal detailModalClose={detailModalClose} boardId={boardId} taskId={taskId} />
                 </Modal>
               </div>
             ))}
-          </div>
+          </div> */}
 
         </div>
       );
