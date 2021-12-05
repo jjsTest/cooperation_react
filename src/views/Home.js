@@ -7,24 +7,14 @@ import axios from 'axios';
 //import BoardRoom from './BoardRoom.js';
 import Header from './Header';
 import {
-  CBadge,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
   CTable,
   CTableHead,
   CTableRow,
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
-  CButton,
-  CDataTable,
-  CRow
+  CButton
 } from '@coreui/react';
-//import { DocsLink } from 'src/reusable'
-
-//import usersData from '../../users/UsersData'
 
 function Home() {
 
@@ -33,21 +23,22 @@ function Home() {
   const [boardList, setBoardList] = useState([]);
   const [boardId, setBoardId] = useState("init");
   const fields = ['name','num', 'total_num', 'create_id'];
+  const username = localStorage.getItem('authenticatedUser');
   //const [nameValue, setNameValue] = useState(''); // 이름
   //const [countValue, setCountValue] = useState(0); // 사람 수 
 
   function getBoard(){
     axios(
       {
-          //baseURL:'http://localhost:8080',
           url: '/board/select',
           method:'post',
           baseURL:'http://localhost:8080',
-          withCredentials:true,
+          //withCredentials:true,
       })
       .then(function (response){
       console.log("성공");
       console.log(response);
+      //alert("username:"+username);
       setBoardList(response.data);
     })
     .catch(function(error){
@@ -73,7 +64,6 @@ function Home() {
   }
 
   function deleteBoard(id){
-    alert("id:"+id);
     if(window.confirm('삭제하시겠습니까')){
       axios(
         {
@@ -81,11 +71,9 @@ function Home() {
             method:'post',
             data:{
                id: id
-                //name: 'hong',
-                //count: 1
             },
             baseURL:'http://localhost:8080',
-            withCredentials:true,
+            //withCredentials:true,
         }
     ).then(function (response){
         console.log(response)
@@ -108,11 +96,11 @@ function Home() {
         <Header />  
         <br/>
         {/* 보드 추가 모달창 */}
-        <CButton color="success" shape="rounded-pill" onClick={addBoardModalOpen}>AddBoard</CButton>  
+        <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addBoardModalOpen}>-------------AddBoard-------------</CButton>  
         <Modal isOpen ={modalState}>
-          <AddBoardModal addBoardModalClose={addBoardModalClose} boardId={boardId}/>
+          <AddBoardModal fullscreen='md-down' addBoardModalClose={addBoardModalClose} boardId={boardId}/>
         </Modal>
-        <br/><br/>
+        <br/>
         {/* <CRow>*/}
           {/* <CCol xs="12" lg="6"> */}
          {/* <CCol xs="12" lg="20">
@@ -126,20 +114,20 @@ function Home() {
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">project</CTableHeaderCell>
                     <CTableHeaderCell scope="col">create_id</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">현인원/최대인원</CTableHeaderCell>
+                    {/* <CTableHeaderCell scope="col">HeadCount / Maximum Capacity</CTableHeaderCell> */}
+                    <CTableHeaderCell scope="col">Current/Maximum</CTableHeaderCell>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  <CTableRow>
-                    {boardList.map((board) => (
-                      <div key={boardList.id}>
-                        <CTableHeaderCell scope="row">1</CTableHeaderCell>
+                {boardList.map((board) => (
+                  <CTableRow key={boardList.id}>
+                        <CTableHeaderCell scope="row">{board.id}</CTableHeaderCell>
                         <CTableDataCell scope="row">{board.name}</CTableDataCell>
                         <CTableDataCell scope="row">{board.create_id}</CTableDataCell>
                         <CTableDataCell scope="row">{board.num} / {board.total_num}</CTableDataCell>
-                        <CTableDataCell scope="row">{board.create_id=="j" ? <button onClick={() => editBoard(board.id)}>edit</button>: null}
-                        {board.create_id=="j" ? <button onClick={() => deleteBoard(board.id)}>delete</button>: null}
+                        <CTableDataCell scope="row">{board.create_id==username ? <button onClick={() => editBoard(board.id)}>edit</button>: null}
+                        {board.create_id==username ? <button onClick={() => deleteBoard(board.id)}>delete</button>: null}
                         {/* if({board.create_id} === "j"){ <button>edit</button>} */}
                         <Link to={`/BoardRoom/${board.id}/${board.name}`}><button>enter</button></Link></CTableDataCell>
                         {/* ` : 템플릿 문자열 이때 변수는 ${}안에 넣어서 보내줘야해서 위처럼 사용함. */}
@@ -147,10 +135,8 @@ function Home() {
                           pathname:"/boardRoom",
                           search:`?board_id=${board.id}`
                         }}> <button>enter</button> </Link> */}
-
-                      </div>
+                    </CTableRow>    
                     ))}
-                  </CTableRow>
                 </CTableBody>
               </CTable>
             {/* </CCard>

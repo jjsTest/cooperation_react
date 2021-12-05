@@ -29,7 +29,7 @@ function BoardRoom(props) {
             board_id: boardId,
          },
           baseURL:'http://localhost:8080',
-          withCredentials:true,
+          //withCredentials:true,
       })
       .then(function (response){
       console.log("성공");
@@ -60,7 +60,6 @@ function BoardRoom(props) {
   }
 
   function detailModalClose(){
-    alert("끝쓰");
     setDetailModalState(false);
     // setModalOpen(true);
   }
@@ -75,34 +74,25 @@ function BoardRoom(props) {
           <br/>
           <h2>{boardName}</h2> 
           <hr></hr>        
-          <CButton color="success" shape="rounded-pill" onClick={addTaskModalOpen}>AddTask</CButton> 
+          <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addTaskModalOpen}>-------------AddTask-------------</CButton> 
           <Modal isOpen ={addModalState}>
             <AddTaskModal addTaskModalClose={addTaskModalClose} boardId={boardId} />
           </Modal>
           <br/><br/>
           {taskList.map((task) => (
-            <div key={taskList.id}>
-              <CCard borderColor="primary" className="text-center" style={{ width: '18rem' }}>
+              <CCard key={taskList.id} borderColor="primary" className="text-center" style={{ width: '18rem' }}>
               <CCardBody>
                 <CCardTitle>{task.subject}</CCardTitle>
                 <CButton onClick={() => detailModalOpen(task.id)}>Go TaskDetail</CButton>
               </CCardBody>
               </CCard>
-            </div>
           ))}
           <Modal isOpen ={detailModalState}>
             <TaskDetailModal detailModalClose={detailModalClose} boardId={boardId} taskId={taskId}/>
           </Modal>
 
 
-          <CCard className="text-center" style={{ width: '18rem' }}>
-            {/* <CCardHeader>Header</CCardHeader> */}
-            <CCardBody>
-              <CCardTitle>Special title treatment</CCardTitle>
-              {/* <CCardText>With supporting text below as a natural lead-in to additional content.</CCardText> */}
-              <CButton href="#">Go somewhere</CButton>
-            </CCardBody>
-          </CCard>
+          
 
           {/* <div className="container">
             {taskList.map((task) => (

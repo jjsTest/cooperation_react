@@ -1,29 +1,26 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
   CNavbar,
   CNavbarNav,
   CNavbarBrand,
   CNavLink,
-  CDropdown,
   CForm,
   CButton,
   CContainer,
   CNavItem,
-  CDropdownDivider,
   CFormInput,
 } from '@coreui/react'
 
 function Header() {
 
+  const username = localStorage.getItem('authenticatedUser');
+
   return (
     <div>
       <CNavbar expand="lg" colorScheme="light" className="bg-light">
       <CContainer fluid>
-        <CNavbarBrand href="#">Project Board</CNavbarBrand>
+        <CNavbarBrand><Link to="/">Project Board</Link></CNavbarBrand>
         {/* <CNavbarToggler onClick={() => setVisible(!visible)} />
         <CCollapse className="navbar-collapse" visible={visible}> */}
           <CNavbarNav>
@@ -37,19 +34,19 @@ function Header() {
               <CNavLink href="#">Link</CNavLink>
             </CNavItem> */}
             <CNavItem>
-              <CNavLink><Link to="/signIn">sign in</Link></CNavLink>
+              <CNavLink><Link to="/contact">contact</Link></CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink><Link to="/signUp">sign up</Link></CNavLink>
+              <CNavLink>{username == "" ? <Link to="/signIn">sign in</Link> : <Link to="/signOut">sign out</Link>}</CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink><Link to="/community">contact</Link></CNavLink>
+              <CNavLink>{username == "" ? <Link to="/signUp">sign up</Link> : null}</CNavLink>
             </CNavItem>
-            <CNavItem>
+            {/* <CNavItem>
               <CNavLink><Link to="/chat">chat</Link></CNavLink>
-            </CNavItem>
+            </CNavItem> */}
             {/* user이름 띄우기 */}
-            <CDropdown variant="nav-item" popper={false}>
+            {/* <CDropdown variant="nav-item" popper={false}>
               <CDropdownToggle color="secondary">Dropdown button</CDropdownToggle>
               <CDropdownMenu>
                 <CDropdownItem href="#">Action</CDropdownItem>
@@ -57,12 +54,12 @@ function Header() {
                 <CDropdownDivider />
                 <CDropdownItem href="#">Something else here</CDropdownItem>
               </CDropdownMenu>
-            </CDropdown>
-            <CNavItem>
+            </CDropdown> */}
+            {/* <CNavItem>
               <CNavLink href="#" disabled>
                 Disabled
               </CNavLink>
-            </CNavItem>
+            </CNavItem> */}
           </CNavbarNav>
           <CForm className="d-flex">
             <CFormInput type="search" className="me-2" placeholder="Search" />

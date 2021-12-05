@@ -32,7 +32,7 @@ function TaskDetailModal(props){
                    task_id: props.taskId
                 },
                 baseURL:'http://localhost:8080',
-                withCredentials:true,
+                //withCredentials:true,
             })
             .then(function (response){
                 console.log("성공");
@@ -56,7 +56,7 @@ function TaskDetailModal(props){
                     contents: inComment
                 },
                 baseURL:'http://localhost:8080',
-                withCredentials:true,
+                //withCredentials:true,
             }
         ).then(function (response){
             console.log(response)

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 //import './Home.css';
-import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {
     Button,
@@ -37,25 +36,45 @@ function SignIn() {
     };
 
     function Login(){
-        axios(
-            {
-                url: '/member/login',
-                method:'post',
-                data:{
-                    id:id,
-                    pw:pw
-                },
-                baseURL:'http://localhost:8080',
-                withCredentials:true,
+      axios(
+        {
+            url: '/authenticate',
+            method:'post',
+            data:{
+                username:id,
+                password:pw
+            },
+            baseURL:'http://localhost:8080',
+            //withCredentials:true,
+        }
+    ).then(function (response){
+        console.log("===registerSuccessfulLoginForJwt===");
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('authenticatedUser', id);
+        setupAxiosInterceptors();
+        //props.history.push(`/home/${id}`)
+
+
+
+        // console.log("res.data.accessToken : " + response.data);
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data;
+        // //props.loginCallBack(true);
+        // props.history.push("/");
+    });   
+    }
+
+    function setupAxiosInterceptors(){
+      axios.interceptors.request.use(
+        config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers['Authorization'] = 'Bearer ' + token;
             }
-        ).then(function (response){
-            console.log(response)
-            if(response.data === 0){
-                alert("Sorry, There was an error. Please try again");
-            }else{
-                alert("you have successfully created new board");
-               // history.push("/signIn")
-            }
+            // config.headers['Content-Type'] = 'application/json';
+            return config;
+        },
+        error => {
+            Promise.reject(error)
         });
     }
 

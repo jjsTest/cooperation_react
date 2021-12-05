@@ -1,12 +1,22 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCardTitle
+  } from '@coreui/react';
 
 function AddBoardModal(props){
 
+    const username = localStorage.getItem('authenticatedUser');
+    const history = useHistory();
     const [values, setValues] = useState({
         name : '',
         num : 0,
-        total_num : 0
+        total_num : ''
     });
 
     //비구조화 할당
@@ -14,6 +24,7 @@ function AddBoardModal(props){
 
     const handleChange = e =>{
         const {name, value} = e.target;
+        //alert("handlechange:"+value);
         setValues({
             ...values,
             [name]: value
@@ -21,47 +32,21 @@ function AddBoardModal(props){
     };
 
     function AddBoard(){
-        axios(
-            {
-                url: '/board/add',
-                method:'post',
-                data:{
-                   name:name,
-                   total_num:total_num
-                    //name: 'hong',
-                    //count: 1
-                },
-                baseURL:'http://localhost:8080',
-                withCredentials:true,
-            }
-        ).then(function (response){
-            console.log(response)
-            if(response.data === 0){
-                alert("Sorry, There was an error. Please try again");
-            }else{
-                alert("you have successfully created new board");
-            }
-            props.addBoardModalClose();
-        });
-    }
+        //alert("값:"+total_num );
+        //alert("널값인지:"+isNaN(total_num));
+       // alert(isNaN(total_num)==false);
 
-    function EditBoard(){
-        if(total_num < num){
-            alert("참여인원보다 많은 인원 수를 입력하세요.");
-        }else{
             axios(
                 {
-                    url: '/board/edit',
+                    url: '/board/add',
                     method:'post',
                     data:{
                        name:name,
                        total_num:total_num,
-                       id: props.boardId
-                        //name: 'hong',
-                        //count: 1
+                       create_id:username
                     },
                     baseURL:'http://localhost:8080',
-                    withCredentials:true,
+                    //withCredentials:true,
                 }
             ).then(function (response){
                 console.log(response)
@@ -71,6 +56,39 @@ function AddBoardModal(props){
                     alert("you have successfully created new board");
                 }
                 props.addBoardModalClose();
+                window.location.replace("/");
+            });
+        
+    }
+
+    function EditBoard(){
+        if(total_num < num){
+            alert("Please check current number of people.");
+        }else{
+            axios(
+                {
+                    url: '/board/edit',
+                    method:'post',
+                    data:{
+                       name:name,
+                       total_num:total_num,
+                       id: props.boardId,
+                       update_id:username
+                    },
+                    baseURL:'http://localhost:8080',
+                    //withCredentials:true,
+                }
+            ).then(function (response){
+                console.log(response)
+                if(response.data === 0){
+                    alert("Sorry, There was an error. Please try again");
+                }else{
+                    alert("you have successfully edited this board");
+                }
+                props.addBoardModalClose();
+                //history.push('/');
+                //window.location.reload();
+                window.location.replace("/");
             });
         }
     }
@@ -87,7 +105,7 @@ function AddBoardModal(props){
                         id: props.boardId,
                      },
                     baseURL:'http://localhost:8080',
-                    withCredentials:true,
+                    //withCredentials:true,
                 })
                 .then(function (response){
                 console.log("성공");
@@ -97,6 +115,7 @@ function AddBoardModal(props){
                     num:response.data[0].num,
                     total_num:response.data[0].total_num
                 });
+                
               })
               .catch(function(error){
                 console.log("실패");
@@ -108,12 +127,16 @@ function AddBoardModal(props){
 
     return (
         <>
-            <ul>
-                제목: <input type="text" name="name" onChange={handleChange} value={values.name} ></input>
-                최대인원수: <input type="text" name="total_num" onChange={handleChange} value={total_num} ></input>
-            </ul>
-            {props.boardId === "init" ? <button onClick={AddBoard}>add</button> : <button onClick={EditBoard}>edit</button>}
-            <button onClick={props.addBoardModalClose}>close</button>
+            <CCard>
+                <CCardHeader componenet="h5"><input style ={{border : 'none'}} type="text" name="name" onChange={handleChange} value={values.name} placeholder="Title"></input></CCardHeader>
+                <CCardBody>
+                    <CCardTitle><input style ={{border : 'none'}} type="number" name="total_num" onChange={handleChange} value={total_num} placeholder="Maximum Capacity"></input></CCardTitle>
+                    {/* <CCardText></CCardText> */}
+                    {props.boardId === "init" ? <CButton onClick={AddBoard}>add</CButton> : <CButton onClick={EditBoard}>edit</CButton>}
+                    <CButton onClick={props.addBoardModalClose}>close</CButton>
+                </CCardBody>
+            </CCard>
+
         </>
     )
 }

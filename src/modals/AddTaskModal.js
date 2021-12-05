@@ -1,8 +1,16 @@
 import React,{useState} from 'react';
 import axios from 'axios';
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCardTitle
+  } from '@coreui/react';
 
 function AddTaskModal(props){
 
+    const username = localStorage.getItem('authenticatedUser');
     const [values, setValues] = useState({
         subject : '',
         contents : ''
@@ -28,10 +36,11 @@ function AddTaskModal(props){
                 data:{
                    board_id: props.boardId,
                    subject: subject,
-                   contents : contents
+                   contents : contents,
+                   create_id: username
                 },
                 baseURL:'http://localhost:8080',
-                withCredentials:true,
+                //withCredentials:true,
             }
         ).then(function (response){
             console.log(response)
@@ -46,13 +55,17 @@ function AddTaskModal(props){
 
     return (
         <>
-            <ul>
-                제목: <input type="text" name="subject" onChange={handleChange} value={subject}></input><br/><br/>
-                내용: <textarea name="contents" onChange={handleChange} value={contents}></textarea>
-                {/* 첨부파일 */}
-            </ul>
-            <button onClick={AddTask}>add</button>
-            <button onClick={props.addTaskModalClose}>close</button>
+            <CCard>
+                <CCardHeader componenet="h5"><input style ={{border : 'none'}} type="text" name="subject" onChange={handleChange} value={subject} placeholder="Task Title"></input></CCardHeader>
+                <CCardBody>
+                    <CCardTitle><textarea style ={{border : 'none'}} name="contents" onChange={handleChange} value={contents} placeholder="contents"></textarea></CCardTitle>
+                    {/* <CCardText></CCardText> */}
+                    <CButton onClick={AddTask}>add</CButton>
+                    <CButton onClick={props.addTaskModalClose}>close</CButton>
+                </CCardBody>
+            </CCard>
+
+
         </>
     )
 }
