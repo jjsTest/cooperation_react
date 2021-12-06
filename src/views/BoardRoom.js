@@ -18,6 +18,7 @@ function BoardRoom(props) {
   const boardId = props.match.params.boardId;
   const boardName = props.match.params.boardName;
   const [taskId, setTaskId] = useState("");
+  const username = localStorage.getItem('authenticatedUser');
 
   function getTask(){
     axios(
@@ -64,6 +65,34 @@ function BoardRoom(props) {
     // setModalOpen(true);
   }
 
+  function checkJoinID(){
+
+  }
+
+  function joinIn(){
+    axios(
+      {
+          url: '/board/joinIn',
+          method:'post',
+          data:{
+             id:boardId,
+             member_id:username,
+             
+          },
+          baseURL:'http://localhost:8080',
+          //withCredentials:true,
+      }
+    ).then(function (response){
+      console.log(response)
+      if(response.data === 0){
+          alert("Sorry, There was an error. Please try again");
+      }else{
+          alert("you have successfully join this board");
+      }
+      //window.location.replace("/");
+    });
+  }
+
   useEffect(() =>{
     getTask();
   },[])
@@ -72,7 +101,7 @@ function BoardRoom(props) {
         <div>
           <Header />
           <br/>
-          <h2>{boardName}</h2> 
+          <h2>{boardName} <CButton color="success" onClick={joinIn}>Join In</CButton> </h2>
           <hr></hr>        
           <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addTaskModalOpen}>-------------AddTask-------------</CButton> 
           <Modal isOpen ={addModalState}>

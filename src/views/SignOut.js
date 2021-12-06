@@ -9,7 +9,7 @@ function SignOut() {
     localStorage.removeItem("authenticatedUser");
     localStorage.removeItem("token");
 
-    history.push('/home');
+    history.push('/');
   },[]);
 
   return (

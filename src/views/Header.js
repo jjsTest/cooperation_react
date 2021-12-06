@@ -37,10 +37,10 @@ function Header() {
               <CNavLink><Link to="/contact">contact</Link></CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink>{username == "" ? <Link to="/signIn">sign in</Link> : <Link to="/signOut">sign out</Link>}</CNavLink>
+              <CNavLink>{username == null ? <Link to="/signIn">sign in</Link> : <Link to="/signOut">sign out</Link>}</CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink>{username == "" ? <Link to="/signUp">sign up</Link> : null}</CNavLink>
+              <CNavLink>{username == null ? <Link to="/signUp">sign up</Link> : null}</CNavLink>
             </CNavItem>
             {/* <CNavItem>
               <CNavLink><Link to="/chat">chat</Link></CNavLink>
