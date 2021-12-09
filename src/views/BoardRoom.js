@@ -19,6 +19,32 @@ function BoardRoom(props) {
   const boardName = props.match.params.boardName;
   const [taskId, setTaskId] = useState("");
   const username = localStorage.getItem('authenticatedUser');
+  const [memCheck, setMemCheck] = useState(0);
+
+  function memberCheck(){
+    axios(
+      {
+          //baseURL:'http://localhost:8080',
+          url: '/board/memberCheck',
+          method:'post',
+          data:{
+            id: boardId,
+            member_id : username
+         },
+          baseURL:'http://localhost:8080',
+          //withCredentials:true,
+      })
+      .then(function (response){
+      console.log("성공");
+      console.log(response);
+      setMemCheck(response.data);
+      //alert(memCheck>0);
+    })
+    .catch(function(error){
+      console.log("실패");
+      console.log(error);
+    });
+  }
 
   function getTask(){
     axios(
@@ -93,7 +119,34 @@ function BoardRoom(props) {
     });
   }
 
+  function leaveBoard(){
+    if(window.confirm('삭제하시겠습니까')){
+      axios(
+        {
+            url: '/board/leaveBoard',
+            method:'post',
+            data:{
+              id:boardId,
+              member_id:username,
+             
+            },
+            baseURL:'http://localhost:8080',
+            //withCredentials:true,
+        }
+      ).then(function (response){
+        console.log(response)
+        if(response.data === 0){
+            alert("Sorry, There was an error. Please try again");
+        }else{
+            alert("you have successfully lefted this board");
+        }
+        //window.location.replace("/");
+     });
+    }
+  }
+
   useEffect(() =>{
+    memberCheck();
     getTask();
   },[])
 
@@ -101,7 +154,7 @@ function BoardRoom(props) {
         <div>
           <Header />
           <br/>
-          <h2>{boardName} <CButton color="success" onClick={joinIn}>Join In</CButton> </h2>
+          <h2>{boardName} {memCheck == 0 ? <CButton color="success" onClick={joinIn}>Join In</CButton>: <CButton color="danger" onClick={leaveBoard}>Leave Board</CButton>} </h2>
           <hr></hr>        
           <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addTaskModalOpen}>-------------AddTask-------------</CButton> 
           <Modal isOpen ={addModalState}>

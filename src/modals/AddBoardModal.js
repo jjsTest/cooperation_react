@@ -34,30 +34,31 @@ function AddBoardModal(props){
     function AddBoard(){
         //alert("값:"+total_num );
         //alert("널값인지:"+isNaN(total_num));
-       // alert(isNaN(total_num)==false);
+        alert("isnan:"+isNaN(total_num));
+      // alert("공백인지:"+total_num==null);
 
-            axios(
-                {
-                    url: '/board/add',
-                    method:'post',
-                    data:{
-                       name:name,
-                       total_num:total_num,
-                       create_id:username
-                    },
-                    baseURL:'http://localhost:8080',
-                    //withCredentials:true,
-                }
-            ).then(function (response){
-                console.log(response)
-                if(response.data === 0){
-                    alert("Sorry, There was an error. Please try again");
-                }else{
-                    alert("you have successfully created new board");
-                }
-                props.addBoardModalClose();
-                window.location.replace("/");
-            });
+            // axios(
+            //     {
+            //         url: '/board/add',
+            //         method:'post',
+            //         data:{
+            //            name:name,
+            //            total_num:total_num,
+            //            create_id:username
+            //         },
+            //         baseURL:'http://localhost:8080',
+            //         //withCredentials:true,
+            //     }
+            // ).then(function (response){
+            //     console.log(response)
+            //     if(response.data === 0){
+            //         alert("Sorry, There was an error. Please try again");
+            //     }else{
+            //         alert("you have successfully created new board");
+            //     }
+            //     props.addBoardModalClose();
+            //     window.location.replace("/");
+            // });
         
     }
 

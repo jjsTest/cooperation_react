@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 //import './Home.css';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import {
     Button,
     Card,
@@ -19,6 +20,7 @@ import {
 
 function SignIn() {
 
+    const history = useHistory();
     const [values, setValues] = useState({
         id : '',
         pw : ''
@@ -52,7 +54,7 @@ function SignIn() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('authenticatedUser', id);
         setupAxiosInterceptors();
-        //props.history.push(`/home/${id}`)
+        history.push('/');
 
 
 
