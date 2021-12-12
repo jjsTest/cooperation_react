@@ -17,6 +17,7 @@ function TaskDetailModal(props){
 
     const [detailList, setDetailList] = useState([]);
     const [inComment, setInComment] = useState('');
+    const username = localStorage.getItem('authenticatedUser');
 
     const handleChange = e =>{
         setInComment(e.target.value)
@@ -53,7 +54,8 @@ function TaskDetailModal(props){
                 data:{
                     board_id:props.boardId,
                     task_id:props.taskId,
-                    contents: inComment
+                    contents: inComment,
+                    member_id: username
                 },
                 baseURL:'http://localhost:8080',
                 //withCredentials:true,
@@ -63,7 +65,7 @@ function TaskDetailModal(props){
             if(response.data === 0){
                 alert("Sorry, There was an error. Please try again");
             }else{
-                alert("you have successfully created new board");
+                alert("you have successfully added new comment");
                 GetTaskDetail();
             }
         });

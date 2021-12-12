@@ -64,7 +64,7 @@ function Home() {
   }
 
   function deleteBoard(id){
-    if(window.confirm('삭제하시겠습니까')){
+    if(window.confirm('Are you sure you want to delete this board?')){
       axios(
         {
             url: '/board/delete',
@@ -80,10 +80,10 @@ function Home() {
         if(response.data === 0){
             alert("Sorry, There was an error. Please try again");
         }else{
-            alert("you have successfully created new board");
+            alert("you have successfully deleted this board");
         }
+        window.location.replace("/");
     });
-      getBoard();
     }
   }
 

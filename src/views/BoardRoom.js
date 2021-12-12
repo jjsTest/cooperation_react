@@ -4,6 +4,7 @@ import AddTaskModal from '../modals/AddTaskModal';
 import Modal from 'react-modal';
 import axios from 'axios';
 import TaskDetailModal from '../modals/TaskDetailModal';
+import { useHistory } from 'react-router-dom';
 import {
   CButton,
   CCardTitle,
@@ -20,6 +21,7 @@ function BoardRoom(props) {
   const [taskId, setTaskId] = useState("");
   const username = localStorage.getItem('authenticatedUser');
   const [memCheck, setMemCheck] = useState(0);
+  const history = useHistory();
 
   function memberCheck(){
     axios(
@@ -110,17 +112,20 @@ function BoardRoom(props) {
       }
     ).then(function (response){
       console.log(response)
-      if(response.data === 0){
-          alert("Sorry, There was an error. Please try again");
-      }else{
+      if(response.data === 1){
           alert("you have successfully join this board");
+      }else if(response.data === 2) {
+          alert("Sorry, This board is full up");
       }
-      //window.location.replace("/");
+      else{
+          alert("Sorry, There was an error. Please try again");
+      }
+      window.location.replace(`/boardRoom/${boardId}/${boardName}`);
     });
   }
 
   function leaveBoard(){
-    if(window.confirm('삭제하시겠습니까')){
+    if(window.confirm('Are you sure you want to leave this board?')){
       axios(
         {
             url: '/board/leaveBoard',
@@ -138,9 +143,9 @@ function BoardRoom(props) {
         if(response.data === 0){
             alert("Sorry, There was an error. Please try again");
         }else{
-            alert("you have successfully lefted this board");
+            alert("you have successfully left this board");
         }
-        //window.location.replace("/");
+        window.location.replace(`/boardRoom/${boardId}/${boardName}`);
      });
     }
   }
@@ -154,9 +159,13 @@ function BoardRoom(props) {
         <div>
           <Header />
           <br/>
-          <h2>{boardName} {memCheck == 0 ? <CButton color="success" onClick={joinIn}>Join In</CButton>: <CButton color="danger" onClick={leaveBoard}>Leave Board</CButton>} </h2>
+          <h2>{boardName} {memCheck == 0 
+                            ? <CButton color="success" onClick={joinIn}>Join In</CButton>
+                            : <CButton color="danger" onClick={leaveBoard}>Leave Board</CButton>} </h2>
           <hr></hr>        
-          <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addTaskModalOpen}>-------------AddTask-------------</CButton> 
+          {memCheck == 1 
+            ? <CButton style={{display : 'block', margin : 'auto'}} color="success" shape="rounded-pill" onClick={addTaskModalOpen}>-------------AddTask-------------</CButton> 
+            : null}
           <Modal isOpen ={addModalState}>
             <AddTaskModal addTaskModalClose={addTaskModalClose} boardId={boardId} />
           </Modal>
