@@ -4,6 +4,7 @@ import Home from './views/Home';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
 import SignOut from './views/SignOut';
+import Contact from './views/Contact';
 
 function Routes() {
   return (
@@ -13,6 +14,7 @@ function Routes() {
           <Route path="/signIn" component={SignIn} />
           <Route path="/signUp" component={SignUp} /> 
           <Route path="/signOut" component={SignOut} />
+          <Route path="/contact" component={Contact} />
           {/* <Route path="/community" component={Community} />
           <Route path="/chat" component={Chat} /> */}
       </div>

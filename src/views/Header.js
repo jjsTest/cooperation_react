@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {RiUserLine} from 'react-icons/ri';
 import {
   CNavbar,
   CNavbarNav,
@@ -9,7 +10,7 @@ import {
   CButton,
   CContainer,
   CNavItem,
-  CFormInput,
+  CFormInput
 } from '@coreui/react'
 
 function Header() {
@@ -23,7 +24,7 @@ function Header() {
         <CNavbarBrand><Link to="/">Project Board</Link></CNavbarBrand>
         {/* <CNavbarToggler onClick={() => setVisible(!visible)} />
         <CCollapse className="navbar-collapse" visible={visible}> */}
-          <CNavbarNav>
+          <CNavbarNav style={{textAlign : 'left'}}>
             <CNavItem>
               {/* <CNavLink href="#" active>
                 Home
@@ -60,12 +61,14 @@ function Header() {
                 Disabled
               </CNavLink>
             </CNavItem> */}
+            {username ? <CNavItem style={{float:'right'}}><RiUserLine size='22' /> &nbsp;&nbsp;<b style={{fontSize : '25px'}}>{username}</b></CNavItem> : null}
           </CNavbarNav>
           <CForm className="d-flex">
+            {/* <RiUserLine size='24' /> &nbsp;&nbsp;<b style={{fontSize : '25px'}}>{username}</b>
             <CFormInput type="search" className="me-2" placeholder="Search" />
             <CButton type="submit" color="success" variant="outline">
               Search
-            </CButton>
+            </CButton>  */}
           </CForm>
         {/* </CCollapse> */}
       </CContainer>

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 //import './Home.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
     Button,
     Card,
@@ -54,7 +55,7 @@ function SignIn() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('authenticatedUser', id);
         setupAxiosInterceptors();
-        history.push('/');
+        window.location.replace("/");
 
 
 
@@ -82,14 +83,14 @@ function SignIn() {
 
     return (
         <>
-      <Col lg="5" md="7">
+      <Col lg="5" md="7" style={{margin : 'auto'}}>
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
+          {/* <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
               <small>Sign in with</small>
             </div>
             <div className="btn-wrapper text-center">
-              {/* <Button
+              <Button
                 className="btn-neutral btn-icon"
                 color="default"
                 href="#pablo"
@@ -105,7 +106,7 @@ function SignIn() {
                   />
                 </span>
                 <span className="btn-inner--text">Github</span>
-              </Button> */}
+              </Button>
               <Button
                 className="btn-neutral btn-icon"
                 color="default"
@@ -122,12 +123,12 @@ function SignIn() {
                   />
                 </span>
                 <span className="btn-inner--text">Google</span>
-              </Button>
+              </Button> 
             </div>
-          </CardHeader>
+          </CardHeader> */}
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small>sign in with credentials</small>
             </div>
             <Form role="form">
               <FormGroup className="mb-3">
@@ -187,13 +188,13 @@ function SignIn() {
         </Card>
         <Row className="mt-3">
           <Col xs="6">
-            <a
+            {/* <a
               className="text-light"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
               <small>Forgot password?</small>
-            </a>
+            </a> */}
           </Col>
           <Col className="text-right" xs="6">
             <a
@@ -201,7 +202,7 @@ function SignIn() {
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small>Create new account</small>
+              <small><Link to="/signUp">Create new account</Link></small>
             </a>
           </Col>
         </Row>

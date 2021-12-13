@@ -15,11 +15,12 @@ import {
     InputGroupText,
     InputGroup,
     Row,
-    Col,
+    Col
   } from "reactstrap";
 
 function SignUp() {
 
+    const [idChkVal, setIdChkVal] = useState(false);
     const [values, setValues] = useState({
         id : '',
         pw : '',
@@ -43,20 +44,24 @@ function SignUp() {
     function SaveSignUp(){
         //history.push("/home");
         //아디 영문자만받을건가욥?
-        if(id === "" || id.length>20){
-            alert("아이디sms 20이하의 길이로 해주세욥");
-            //id edit에 포커스 가게 하면 완벽
-            return false;
-        }else if(pw === "" || pw.length>12){
-            alert("비번은 12이하의 길이로 해주세욥");
-            return false;
-        }else if(pwChk !== pw){
-            alert("비밀번호가 일치하지 않습니다.");
-            return false;
+        if(id === "" || pw ===""){
+          alert("please enter ID and password");
+          return false; 
+        }else if(!idChkVal){
+          alert("please check ID duplication.");
+          return false;
+        // }else if(id.length>20){
+        //   alert("아이디sms 20이하의 길이로 해주세욥");
+        //   //id edit에 포커스 가게 하면 완벽
+        // }else if(pw === "" || pw.length>12){
+        //   alert("비번은 12이하의 길이로 해주세욥");
+        //   return false;
+         }else if(pwChk !== pw){
+          alert("Password is different from Password Check.");
+          return false;
         }else if(email===""){
-            alert("이메일을 입력해주세요.");
-            //이메일 @등 형식체크필요
-            return false;
+          alert("please enter email.");
+          return false;
         }
         axios(
             {
@@ -68,30 +73,50 @@ function SignUp() {
                     email: email
                 },
                 baseURL:'http://localhost:8080',
-                withCredentials:true,
+                //withCredentials:true,
             }
         ).then(function (response){
             console.log(response)
             if(response.data === 0){
                 alert("Sorry, There was an error. Please try again");
             }else{
-                alert("you have successfully created new board");
-                //PageToHome();
+                alert("you have successfully created new account");
+                window.location.replace("/");
             }
         });
     }
 
-    function IdChk(){
+    function IdCheck(){
         //아이디 중복체크
+        axios(
+          {
+              url: '/member/idCheck',
+              method:'post',
+              data:{
+                  id:id
+              },
+              baseURL:'http://localhost:8080',
+              //withCredentials:true,
+          }
+      ).then(function (response){
+          console.log(response)
+          if(response.data){
+              alert("Sorry, This ID is already being used");
+              setIdChkVal(false);
+          }else{
+              alert("This ID is available");
+              setIdChkVal(true);
+          }
+      });
     }
 
     return (
-        <>
-      <Col lg="6" md="8">
+      <>
+      <Col lg="6" md="8" style={{ margin: 'auto'}}>
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-4">
-              <small>Sign up with</small>
+              {/* <small>Sign up with</small> */}
             </div>
             <div className="text-center">
               {/* <Button
@@ -111,7 +136,7 @@ function SignUp() {
                 </span>
                 <span className="btn-inner--text">Github</span>
               </Button> */}
-              <Button
+              {/* <Button
                 className="btn-neutral btn-icon"
                 color="default"
                 href="#pablo"
@@ -127,12 +152,12 @@ function SignUp() {
                   />
                 </span>
                 <span className="btn-inner--text">Google</span>
-              </Button>
+              </Button> */}
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign up with credentials</small>
+              <small> sign up with credentials</small>
             </div>
             <Form role="form">
               <FormGroup>
@@ -143,7 +168,7 @@ function SignUp() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input placeholder="ID" type="text" name="id" onChange={handleChange} value={id}/>
-                  <button color="secondary" onClick={IdChk}>중복체크</button>
+                  <Button color="warning" onClick={IdCheck}>duplicate check</Button>
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -188,7 +213,7 @@ function SignUp() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password check"
+                    placeholder="Password Check: please enter your password again "
                     type="password"
                     name="pwChk" 
                     onChange={handleChange} 
@@ -197,7 +222,7 @@ function SignUp() {
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="text-muted font-italic">
+             {/* <div className="text-muted font-italic">
                 <small>
                   password strength:{" "}
                   <span className="text-success font-weight-700">strong</span>
@@ -224,7 +249,7 @@ function SignUp() {
                     </label>
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
               <div className="text-center">
                 <Button className="mt-4" color="primary" type="button" onClick={SaveSignUp}>
                   Create account
